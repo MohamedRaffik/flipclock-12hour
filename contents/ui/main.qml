@@ -25,10 +25,9 @@ Rectangle {
     }
 
     function updateTime() {
-        root.hour = dataSource.data["Local"]["DateTime"].getHours()
+        root.hour = dataSource.data["Local"]["DateTime"].getHours() % 12
         root.min = dataSource.data["Local"]["DateTime"].getMinutes()
-        root.meridem = root.hour > 12 ? "PM" : "AM"
-        root.hour = root.hour % 12
+        root.meridem = dataSource.data["Local"]["DateTime"].getHours() > 12 ? "PM" : "AM"
     }
 
     property int hour
@@ -36,22 +35,26 @@ Rectangle {
     property string meridem
 
     // helper for testing animation
-    //Timer {
-        //running: true
-        //interval: 4000
-        //repeat: true
-        //onTriggered: root.hour++
-    //}
+    // Timer {
+    //     running: true
+    //     interval: 4000
+    //     repeat: true
+    //     onTriggered: {
+    //         root.hour++
+    //         root.min++
+    //         root.meridem = root.meridem == "AM" ? "PM" : "AM"
+    //     }
+    // }
 
 
     Digit {
         id: hours
         height: root.height * 0.6
-        width: Math.min(parent.width * 0.45, height)
-        anchors.right: parent.horizontalCenter
+        width: Math.min(parent.width * 0.3, height)
         anchors.rightMargin: parent.width * 0.01
         font: fixedFont.name
         anchors.verticalCenter: root.verticalCenter
+        anchors.right: min.left
         number: root.hour
         onNumberChanged: flipEffectHours.flip()
     }
@@ -66,13 +69,12 @@ Rectangle {
     Digit {
         id: min
         height: root.height * 0.6
-        width: Math.min(parent.width * 0.45, height)
-        anchors.left: parent.horizontalCenter
+        width: Math.min(parent.width * 0.3, height)
         anchors.leftMargin: parent.width * 0.01
         font: fixedFont.name
         anchors.verticalCenter: root.verticalCenter
+        anchors.horizontalCenter: root.horizontalCenter
         number: root.min
-        meridem: root.meridem
         onNumberChanged: flipEffectMin.flip()
     }
 
@@ -83,4 +85,20 @@ Rectangle {
     }
 
 
+    Meridem {
+        id: meridem
+        height: root.height * 0.6
+        width: Math.min(parent.width * 0.3, height)
+        anchors.leftMargin: parent.width * 0.01
+        anchors.verticalCenter: root.verticalCenter
+        anchors.left: min.right
+        value: root.meridem
+        onValueChanged: flipEffectMeridem.flip()
+    }
+
+    FlipEffect {
+        id: flipEffectMeridem
+        sourceItem: meridem
+        anchors.fill: meridem
+    }
 }
