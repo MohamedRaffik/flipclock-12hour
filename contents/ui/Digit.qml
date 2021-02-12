@@ -16,7 +16,7 @@ Rectangle {
         anchors.rightMargin: parent.width * 0.05
         anchors.top: parent.top
         anchors.topMargin: parent.height * 0.05
-        font.pixelSize: Math.min(parent.height * 0.1, parent.width * 0.1)
+        font.pixelSize: Math.min(parent.height * 0.1, parent.width * 0.2)
         color: "#b7b7b7"
         font.family: fixedFont.name
         renderType: Text.QtRendering
