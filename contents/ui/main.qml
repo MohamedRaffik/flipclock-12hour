@@ -25,10 +25,9 @@ Rectangle {
     }
 
     function updateTime() {
-        hour = dataSource.data["Local"]["DateTime"].getHours()
-        root.hour = hour % 12 == 0 ? 12 : hour % 12
+        root.hour = dataSource.data["Local"]["DateTime"].getHours() % 12 == 0 ? 12 : dataSource.data["Local"]["DateTime"].getHours() % 12
         root.min = dataSource.data["Local"]["DateTime"].getMinutes()
-        root.meridem = hour >= 12 ? "PM" : "AM"
+        root.meridem = dataSource.data["Local"]["DateTime"].getHours() >= 12 ? "PM" : "AM"
     }
 
     property int hour
